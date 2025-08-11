@@ -1,28 +1,32 @@
 <?php
 class Invoice{
 	private $host  = 'localhost';
-    private $user  = 'root';
-    private $password   = "";
-    private $database  = "billing_software";   
+	private $user  = 'root';
+	private $password   = "";
+	private $database  = "billing_software";   
 	private $invoiceUserTable = 'invoice_user';	
-    private $invoiceOrderTable = 'invoice_order';
+	private $invoiceOrderTable = 'invoice_order';
 	private $invoiceOrderItemTable = 'invoice_order_item';
 	private $productTable = 'items';
-	private $dbConnect = false;
-    public function __construct(){
-        if(!$this->dbConnect){ 
-            $conn = new mysqli($this->host, $this->user, $this->password, $this->database);
-            if($conn->connect_error){
-                die("Error failed to connect to MySQL: " . $conn->connect_error);
-            }else{
-                $this->dbConnect = $conn;
-            }
-        }
-    }
+	private $dbConnect = null;
+	public function __construct(){
+		if(!$this->dbConnect){ 
+			$conn = new mysqli($this->host, $this->user, $this->password, $this->database);
+			if($conn->connect_error){
+				die("Error failed to connect to MySQL: " . $conn->connect_error);
+			}else{
+				$this->dbConnect = $conn;
+			}
+		}
+		if (!$this->dbConnect || !($this->dbConnect instanceof mysqli)) {
+			die('Database connection error.');
+		}
+	}
 	private function getData($sqlQuery) {
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		if(!$result){
-			die('Error in query: '. mysqli_error());
+			$errorMsg = is_object($this->dbConnect) ? mysqli_error($this->dbConnect) : 'No DB connection';
+			die('Error in query: '. $errorMsg);
 		}
 		$data= array();
 		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -34,7 +38,8 @@ class Invoice{
 	private function getField($sqlQuery) {
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		if(!$result){
-			die('Error in query: '. mysqli_error());
+			$errorMsg = is_object($this->dbConnect) ? mysqli_error($this->dbConnect) : 'No DB connection';
+			die('Error in query: '. $errorMsg);
 		}
 		$data = mysqli_fetch_object($result);            
 		return $data;
@@ -43,7 +48,8 @@ class Invoice{
 	private function getSingleData($sqlQuery) {
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		if(!$result){
-			die('Error in query: '. mysqli_error());
+			$errorMsg = is_object($this->dbConnect) ? mysqli_error($this->dbConnect) : 'No DB connection';
+			die('Error in query: '. $errorMsg);
 		}
 	
 		$data = mysqli_fetch_assoc($result);
@@ -54,7 +60,8 @@ class Invoice{
 	private function getNumRows($sqlQuery) {
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		if(!$result){
-			die('Error in query: '. mysqli_error());
+			$errorMsg = is_object($this->dbConnect) ? mysqli_error($this->dbConnect) : 'No DB connection';
+			die('Error in query: '. $errorMsg);
 		}
 		$numRows = mysqli_num_rows($result);
 		return $numRows;
@@ -64,7 +71,7 @@ class Invoice{
 			SELECT id, email, first_name, last_name, address, mobile 
 			FROM ".$this->invoiceUserTable." 
 			WHERE email='".$email."' AND password='".$password."'";
-        return  $this->getData($sqlQuery);
+		return  $this->getData($sqlQuery);
 	}	
 	public function checkLoggedIn(){
 		if(!$_SESSION['userid']) {
@@ -181,6 +188,72 @@ class Invoice{
 			VALUES ('".$POST['userId']."', '".$POST['productName'][$i]."',  '".$POST['price'][$i]."')";			
 			$result = mysqli_query($this->dbConnect, $sqlInsertItem);
 		}      
+	}
+
+	public function importExcelItems($excelData) {
+		$importedCount = 0;
+		$errors = array();
+		
+		// Skip header row, start from index 1
+		for ($i = 1; $i < count($excelData); $i++) {
+			$row = $excelData[$i];
+			
+			// Skip empty rows
+			if (empty(array_filter($row))) {
+				continue;
+			}
+			
+			// Expecting: Item Name, Price (or Item Name, Item Code, Price)
+			$itemName = isset($row[0]) ? trim($row[0]) : '';
+			$itemPrice = isset($row[1]) ? trim($row[1]) : '';
+			
+			// If we have 3 columns, assume: Item Name, Item Code, Price
+			if (count($row) >= 3 && !empty($row[1]) && is_numeric($row[2])) {
+				$itemName = trim($row[0]);
+				$itemPrice = trim($row[2]);
+			}
+			
+			// Validate data
+			if (empty($itemName)) {
+				$errors[] = "Row " . ($i + 1) . ": Item name is required";
+				continue;
+			}
+			
+			if (!is_numeric($itemPrice) || $itemPrice <= 0) {
+				$errors[] = "Row " . ($i + 1) . ": Valid price is required";
+				continue;
+			}
+			
+			// Check if item already exists using getAllItems method
+			$existingItems = $this->getAllItems();
+			$itemExists = false;
+			foreach ($existingItems as $item) {
+				if (strtolower($item['item_name']) === strtolower($itemName)) {
+					$itemExists = true;
+					break;
+				}
+			}
+			
+			if ($itemExists) {
+				$errors[] = "Row " . ($i + 1) . ": Item '$itemName' already exists";
+				continue;
+			}
+			
+			// Use the existing insertItems method
+			$postData = array(
+				'userId' => $_SESSION['userid'],
+				'productName' => array($itemName),
+				'price' => array($itemPrice)
+			);
+			
+			$this->insertItems($postData);
+			$importedCount++;
+		}
+		
+		return array(
+			'imported' => $importedCount,
+			'errors' => $errors
+		);
 	}
 
 	public function getItemDetails($itemId) {

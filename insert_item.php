@@ -15,10 +15,9 @@ if(isset($_POST['item_btn'])) {
 }
 ?>
 <script src="js/invoice.js"></script>
-<link href="css/style.css" rel="stylesheet">
 <?php include('container.php');?>
 <div class="container content-invoice">
-	<div><a class="btn btn-warning back_btn" href="javascript:history.go(-1)">&#8592 Go Back</a></div>
+	<div><a class="btn btn-outline-secondary btn-sm" href="javascript:history.go(-1)"><i class="bi bi-arrow-left"></i> Go Back</a></div>
 	<?php
 		if($success) {
 			echo '<div class="alert alert-success" role="alert">Items saved Successfully!</div>';	
@@ -30,37 +29,43 @@ if(isset($_POST['item_btn'])) {
 	<form action="" id="invoice-form" method="post" class="invoice-form" role="form" novalidate=""> 
 		<div class="load-animate animated fadeInUp">
 			<div class="row">
-				<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+				<div class="col-8 col-sm-8 col-md-8 col-lg-8">
 					<h2 class="title">Insert New Items</h2>	
 				</div>		    		
 			</div></br></br>
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
 					<table class="table table-bordered table-hover" id="insertItem" >	
 						<tr>
-							<th width="4%"><input id="checkAll" class="formcontrol" type="checkbox"></th>
+							<th width="4%"><input id="checkAll" class="form-control" type="checkbox"></th>
 							<th width="48%">Item Name</th>
 							<th width="48%">Price</th>								
 						</tr>							
 						<tr>
 							<td><input class="itemRow" type="checkbox"></td>
 							
-							<td><input type="text" name="productName[]" id="productName_1" class="form-control" autocomplete="off"></td>			
-							<td><input type="number" name="price[]" id="price_1" class="form-control price" autocomplete="off"></td>
+							<td><input type="text" name="productName[]" id="productName_1" class="form-control" placeholder="Enter item name" autocomplete="off"></td>			
+							<td><input type="number" name="price[]" id="price_1" class="form-control price" placeholder="Enter price" autocomplete="off"></td>
 						</tr>						
 					</table>
 			</div>
       </div>
 			<div class="row my-2">
-				<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 ">
-					<button class="btn btn-danger delete" id="removeRows" type="button">- Delete</button>
-					<button class="btn btn-success" id="addItemRows" type="button">+ Add More</button>
+				<div class="col-12 col-sm-3 col-md-3 col-lg-3 ">
+					<button class="btn btn-outline-danger btn-sm me-2" id="removeRows" type="button">
+						<i class="bi bi-trash"></i> Delete
+					</button>
+					<button class="btn btn-outline-success btn-sm" id="addItemRows" type="button">
+						<i class="bi bi-plus-circle"></i> Add More
+					</button>
 				</div>
         </div>
       <div class="clearfix"></div>	
-      <div class="form-group center">
+      <div class="mb-3 center">
 						<input type="hidden" value="<?php echo $_SESSION['userid']; ?>" class="form-control" name="userId">
-						<input data-loading-text="Saving Items..." type="submit" name="item_btn" value="Save Items" class="btn btn-primary submit_btn receipt-save-btn">						
+						<button type="submit" name="item_btn" class="btn btn-primary btn-lg w-100" data-loading-text="Saving Items...">
+							<i class="bi bi-save"></i> Save Items
+						</button>						
 					</div>	      	
 		</div>
 	</form>			

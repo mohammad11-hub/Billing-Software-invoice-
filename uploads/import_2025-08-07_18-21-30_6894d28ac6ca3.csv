@@ -1,0 +1,21 @@
+Product_Code,Name,Per_Unit,KG_Weight,Per_Package,Unit_Price
+P001,Basmati Rice,Kg,1.0,1,120.0
+P002,Wheat Flour,Kg,1.0,1,45.0
+P003,Sugar,Kg,1.0,1,55.0
+P004,Red Lentils,Kg,1.0,1,95.0
+P005,Green Tea,Box,0.1,20,250.0
+P006,Cooking Oil,Liter,1.0,1,140.0
+P007,Tomatoes,Kg,1.0,1,40.0
+P008,Onions,Kg,1.0,1,30.0
+P009,Potatoes,Kg,1.0,1,25.0
+P010,Chicken Breast,Kg,1.0,1,280.0
+P011,Milk Powder,Kg,0.5,1,350.0
+P012,Black Pepper,Kg,0.1,1,800.0
+P013,Turmeric Powder,Kg,0.1,1,120.0
+P014,Salt,Kg,1.0,1,20.0
+P015,Almonds,Kg,1.0,1,650.0
+P016,Cashews,Kg,1.0,1,750.0
+P017,Apples,Kg,1.0,1,80.0
+P018,Bananas,Dozen,1.2,12,60.0
+P019,Orange Juice,Liter,1.0,1,85.0
+P020,Pasta,Kg,0.5,1,75.0

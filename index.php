@@ -18,33 +18,31 @@ if (!empty($_POST['email']) && !empty($_POST['pwd'])) {
 	}
 }
 ?>
-<title>Billing & Invoice Software</title>
 <script src="js/invoice.js"></script>
-<link href="css/style.css" rel="stylesheet">
 </head>
-<div class= "container-fluid" style= "min-height:95vh">
+<body>
+<div class="container-fluid" style="min-height:95vh">
 <div class="row">	
 	<div class="demo-heading">
-		<h2 style= "text-align: center;">Welcome to Billing Software</h2>
+		<h2 style="text-align: center;">Welcome to Billing Software</h2>
 	</div>
 	<div class="login-form">		
 		<h4>Admin Login:</h4>		
 		<form method="post" action="">
-			<div class="form-group">
+			<div class="mb-3">
 			<?php 
-			echo $loginError;
-			if ($loginError ) { ?>
+			if ($loginError) { ?>
 				<div class="alert alert-warning"><?php echo $loginError; ?></div>
 			<?php } ?>
 			</div>
-			<div class="form-group">
+			<div class="mb-3">
 				<input name="email" id="email" type="email" class="form-control" placeholder="Email address" autofocus="" required>
 			</div>
-			<div class="form-group">
+			<div class="mb-3">
 				<input type="password" class="form-control" name="pwd" placeholder="Password" required>
 			</div>  
-			<div class="form-group">
-				<button type="submit" name="login" class="btn btn-success">Login</button>
+			<div class="mb-3">
+				<button type="submit" name="login" class="btn btn-success btn-lg w-100">Login</button>
 			</div>
 		</form>		
 	</div>		
