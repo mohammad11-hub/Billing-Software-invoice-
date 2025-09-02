@@ -7,6 +7,7 @@ require("nepali-date.php");
 $invoice = new Invoice();
 $ledger = new Ledger();
 $nepali_date = new nepali_date();
+
 $invoice->checkLoggedIn();
 ?>
 <script src="js/invoice.js"></script>

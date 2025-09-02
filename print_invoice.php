@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('header.php');
 include 'ledger.php';
 include 'Invoice.php';
 require("nepali-date.php");
@@ -25,6 +26,7 @@ if(empty($_GET['invoice_id'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,9 +35,10 @@ if(empty($_GET['invoice_id'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
     <?php include('container.php');?>
-    
+
     <div class="container-fluid py-5">
         <div class="row">
             <div class="col-lg-8 mx-auto">
@@ -50,11 +53,11 @@ if(empty($_GET['invoice_id'])) {
                                 <select class="form-select" name="invoice_id" id="invoice_id" required>
                                     <option value="">Choose an invoice...</option>
                                     <?php foreach($invoiceList as $inv): ?>
-                                        <option value="<?php echo $inv['order_id']; ?>">
-                                            Invoice #<?php echo $inv['order_id']; ?> - 
-                                            <?php echo $inv['order_date']; ?> - 
-                                            ₹<?php echo $inv['order_total_after_tax']; ?>
-                                        </option>
+                                    <option value="<?php echo $inv['order_id']; ?>">
+                                        Invoice #<?php echo $inv['order_id']; ?> -
+                                        <?php echo $inv['order_date']; ?> -
+                                        ₹<?php echo $inv['order_total_after_tax']; ?>
+                                    </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -72,9 +75,10 @@ if(empty($_GET['invoice_id'])) {
             </div>
         </div>
     </div>
-    
+
     <?php include('footer.php');?>
 </body>
+
 </html>
 <?php
     exit;
@@ -209,6 +213,9 @@ $output = '
     </style>
 </head>
 <body>
+    <a href="dashboard.php" class="print-btn no-print" style="position: fixed; top: 70px; right: 20px; z-index: 1000; text-decoration: none; background: #6c757d;">
+    <i class="bi bi-arrow-left"></i> Back to Dashboard
+</a>
     <button onclick="window.print()" class="print-btn no-print">
         <i class="bi bi-printer"></i> Print Invoice
     </button>
@@ -375,4 +382,4 @@ $dompdf->stream($invoiceFileName, array("Attachment" => false));
     // Show HTML version (default)
     echo $output;
 }
-?>   
+?>

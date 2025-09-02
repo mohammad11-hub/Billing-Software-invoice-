@@ -5,9 +5,9 @@
     <a class="navbar-brand fw-bold" href="dashboard.php">
       <i class="bi bi-calculator"></i> Billing System
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon">hello</span>
+    </button> -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
@@ -23,7 +23,7 @@
             <li><a class="dropdown-item" href="create_invoice.php"><i class="bi bi-plus-circle"></i> Generate Invoice</a></li>
             <li><a class="dropdown-item" href="invoice_list.php"><i class="bi bi-list-ul"></i> Invoice List</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="print_invoice.php" target="_blank"><i class="bi bi-printer"></i> Print Invoice</a></li>
+            <li><a class="dropdown-item " href="print_invoice.php" target="_blank"><i class="bi bi-printer"></i> Print Invoice</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">

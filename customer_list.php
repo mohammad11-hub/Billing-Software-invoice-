@@ -14,7 +14,7 @@ $ledger->checkLoggedIn();
 
 <div class="container-fluid py-5">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 mb-4 z-index-1 position-relative ">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="title mb-0">
                     <i class="bi bi-people"></i> Customer List
@@ -39,9 +39,9 @@ $ledger->checkLoggedIn();
                 </div>
             <?php else: ?>
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">
-                            <i class="bi bi-list-ul"></i> Customer Database
+                    <div class="card-header bg-primary text-white  ">
+                        <h5 class="mb-0 -flex align-items-center justify-content-center z-index-1 position-relative">
+                            <i class="bi bi-list-ul p-3"></i> Customer Database
                         </h5>
                     </div>
                     <div class="card-body">
